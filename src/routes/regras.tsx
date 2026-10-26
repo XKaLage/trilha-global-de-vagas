@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AppShell, meta } from "@/components/AppShell";
 import { actions, useApp } from "@/lib/store";
-import { CRITERIA_LABELS, evaluate, type CriterionMode, type Job, type RuleSet } from "@/lib/rules";
+import { CRITERIA_LABELS, defaultRules, evaluate, type CriterionMode, type Job, type RuleSet } from "@/lib/rules";
 
 export const Route = createFileRoute("/regras")({
   head: () => meta("Regras", "Editor de regras com bloqueios, preferências ponderadas e versões."),
@@ -14,10 +14,10 @@ const list = (s: string) => s.split(",").map((x) => x.trim()).filter(Boolean);
 function Regras() {
   const s = useApp();
   const latest = s.versions[0];
-  const [rules, setRules] = useState<RuleSet>(latest.rules);
+  const [rules, setRules] = useState<RuleSet>(latest?.rules ?? defaultRules());
   const [note, setNote] = useState("");
   const [testId, setTestId] = useState<string>();
-  useEffect(() => setRules(latest.rules), [latest.id]);
+  useEffect(() => { if (latest) setRules(latest.rules); }, [latest?.id]);
 
   const setC = <K extends keyof RuleSet>(k: K, p: Partial<RuleSet[K]>) => setRules({ ...rules, [k]: { ...rules[k], ...p } });
   const testV = s.versions.find((v) => v.id === testId);
