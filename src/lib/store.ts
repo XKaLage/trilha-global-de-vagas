@@ -136,8 +136,14 @@ export const actions = {
       { demo: true, url: "https://example.com/demo/3", employer: "Exemplo Corp", title: "Unpaid Intern (EXEMPLO)", location: "Austin, TX", country: "US", internationalOk: false, description: "unpaid" },
     ];
     demo.forEach((d) => actions.addJob(d));
-    set((s) => ({ ...s, responses: [{ id: uid(), demo: true, employer: "Exemplo Resort", kind: "interview", summary: "EXEMPLO: convite fictício para entrevista", receivedAt: now() }, ...s.responses] }),
-      ["demo.carregar", "Dados de exemplo carregados"]);
+    set((s) => ({
+      ...s,
+      responses: [
+        { id: uid(), demo: true, employer: "Exemplo Resort", kind: "interview", summary: "EXEMPLO: convite fictício para entrevista", receivedAt: now() },
+        { id: uid(), demo: true, employer: "Exemplo Farms", kind: "rejection", summary: "EXEMPLO: resposta fictícia de rejeição", receivedAt: now() },
+        { id: uid(), demo: true, employer: "Exemplo Corp", kind: "info", summary: "EXEMPLO: pedido fictício de informações adicionais", receivedAt: now() },
+        ...s.responses],
+    }), ["demo.carregar", "Dados de exemplo carregados"]);
   },
   clearDemo: () => set((s) => ({ ...s, jobs: s.jobs.filter((j) => !j.demo), responses: s.responses.filter((r) => !r.demo) }), ["demo.limpar", "Dados de exemplo removidos"]),
   resetAll: () => set(() => initial(), ["sistema.reset", "Todos os dados locais apagados"]),

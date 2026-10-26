@@ -12,6 +12,10 @@ function Overview() {
   const c = counters(s);
   const av = activeVersion(s);
   const st = s.session.status;
+  const TINT: Record<string, string> = {
+    Confirmadas: "tint-success", Respostas: "tint-success",
+    Falhas: "tint-danger", Incertas: "tint-warning",
+  };
   const cards: [string, number, string][] = [
     ["Descobertas", c.discovered, "Vagas encontradas/registradas"],
     ["Elegíveis", c.eligible, "Passaram nos bloqueios"],
@@ -45,7 +49,7 @@ function Overview() {
       </section>
       <section aria-label="Contadores" className="grid grid-cols-2 gap-3 md:grid-cols-4">
         {cards.map(([l, v, h]) => (
-          <div key={l} className="surface p-3">
+          <div key={l} className={`surface p-3 lift ${TINT[l] ?? ""}`}>
             <div className="text-xs text-muted-foreground">{l}</div>
             <div className="font-display text-3xl font-bold">{v}</div>
             <div className="text-[11px] text-muted-foreground">{h}</div>
