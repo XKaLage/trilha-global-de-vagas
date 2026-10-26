@@ -97,3 +97,36 @@
 @utility btn-primary { background: var(--color-primary); color: var(--color-primary-foreground); }
 @utility btn-ghost { background: var(--color-secondary); color: var(--color-secondary-foreground); }
 @utility btn-danger { background: var(--color-destructive); color: var(--color-destructive-foreground); }
+
+/* Interação: card reage ao toque/hover, expande e entra em evidência */
+@utility lift {
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-2px) scale(1.015);
+      box-shadow: 0 14px 32px -14px oklch(0.2 0.03 230 / 38%);
+    }
+  }
+  &:active {
+    transform: scale(1.04);
+    box-shadow: 0 16px 36px -12px oklch(0.2 0.03 230 / 45%);
+  }
+}
+
+/* Tons por status: positivo, alerta e falha */
+@utility tint-success {
+  background: color-mix(in oklab, var(--color-success) 13%, var(--color-card));
+  border-color: color-mix(in oklab, var(--color-success) 45%, var(--color-border));
+}
+@utility tint-danger {
+  background: color-mix(in oklab, var(--color-destructive) 13%, var(--color-card));
+  border-color: color-mix(in oklab, var(--color-destructive) 45%, var(--color-border));
+}
+@utility tint-warning {
+  background: color-mix(in oklab, var(--color-warning) 16%, var(--color-card));
+  border-color: color-mix(in oklab, var(--color-warning) 50%, var(--color-border));
+}
+
+@utility text-tint-success { color: color-mix(in oklab, var(--color-success) 75%, var(--color-foreground)); }
+@utility text-tint-danger { color: color-mix(in oklab, var(--color-destructive) 75%, var(--color-foreground)); }
+@utility text-tint-warning { color: color-mix(in oklab, var(--color-warning) 70%, var(--color-foreground)); }
