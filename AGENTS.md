@@ -8,3 +8,7 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- App state lives in `src/lib/store.ts` (localStorage, non-secret only) until Lovable Cloud is enabled; why: prototype without backend.
+- Integration adapters/status are declared in `src/lib/integrations.ts`; statuses change only after server-side verification; why: never fake connections.
+- Rule evaluation and dedup live in `src/lib/rules.ts` with tests; why: core business logic stays pure and testable.
