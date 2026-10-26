@@ -142,8 +142,8 @@ export const actions = {
         { id: uid(), demo: true, employer: "Exemplo Resort", kind: "interview", summary: "EXEMPLO: convite fictício para entrevista", receivedAt: now() },
         { id: uid(), demo: true, employer: "Exemplo Farms", kind: "rejection", summary: "EXEMPLO: resposta fictícia de rejeição", receivedAt: now() },
         { id: uid(), demo: true, employer: "Exemplo Corp", kind: "info", summary: "EXEMPLO: pedido fictício de informações adicionais", receivedAt: now() },
-      , ...s.responses]
-      ["demo.carregar", "Dados de exemplo carregados"]);
+        ...s.responses],
+    }), ["demo.carregar", "Dados de exemplo carregados"]);
   },
   clearDemo: () => set((s) => ({ ...s, jobs: s.jobs.filter((j) => !j.demo), responses: s.responses.filter((r) => !r.demo) }), ["demo.limpar", "Dados de exemplo removidos"]),
   resetAll: () => set(() => initial(), ["sistema.reset", "Todos os dados locais apagados"]),
