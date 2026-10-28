@@ -1,6 +1,6 @@
 // Modular integration adapters. Every status is truthful: nothing is "connected"
 // until a server-side verification succeeds. Secrets live only in server env vars.
-export type IntegrationStatus = "not_configured" | "planned" | "disabled_by_policy";
+export type IntegrationStatus = "not_configured" | "planned" | "pending" | "disabled_by_policy";
 
 export type Integration = {
   id: string; name: string; purpose: string; status: IntegrationStatus;
@@ -22,14 +22,14 @@ export const INTEGRATIONS: Integration[] = [
     steps: ["Ativar Lovable Cloud", "Criar tabelas com RLS", "Migrar dados locais"],
   },
   {
-    id: "gmail", name: "Gmail (somente leitura)", status: "planned",
-    purpose: "Detectar respostas de empregadores: entrevistas, rejeições, pedidos de informação.",
+    id: "gmail", name: "Gmail (somente leitura)", status: "pending",
+    purpose: "Leitura de respostas de empregadores pendente. As conexões do Lovable não estão vinculadas ao app; nenhuma mensagem é lida.",
     envVars: ["GOOGLE_MAIL_API_KEY", "LOVABLE_API_KEY"], cost: "Sem custo da API do Gmail dentro das cotas.",
     scopes: {
       allowed: ["gmail.readonly"],
       blocked: ["Enviar", "Criar rascunhos", "Encaminhar", "Excluir", "Modificar/rotular"],
     },
-    steps: ["Conectar via OAuth (nunca senha ou código)", "Conceder apenas gmail.readonly", "Filtrar por remetentes de vagas conhecidas", "Envio/modificação exigem autorização separada e explícita"],
+    steps: ["Ajustar a autorização existente para apenas gmail.readonly", "Proteger o acesso privado às mensagens antes de vincular a conexão ao projeto", "Verificar a conexão no servidor do app antes de liberar leitura", "Filtrar por remetentes de vagas conhecidas; nenhuma escrita em e-mails autorizada"],
   },
   {
     id: "sources", name: "Fontes de vagas", status: "not_configured",
@@ -46,6 +46,7 @@ export const INTEGRATIONS: Integration[] = [
 ];
 
 export const STATUS_LABEL: Record<IntegrationStatus, string> = {
+  pending: "Pendente no app",
   not_configured: "Não configurado",
   planned: "Planejado",
   disabled_by_policy: "Desativado por política",

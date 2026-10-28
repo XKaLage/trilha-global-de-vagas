@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell, DemoBadge, DisabledAction, Empty, meta } from "@/components/AppShell";
 import { useApp } from "@/lib/store";
+import { GmailPendingNotice } from "@/components/GmailPendingNotice";
 
 export const Route = createFileRoute("/respostas")({
   head: () => meta("Respostas", "Respostas de empregadores: entrevistas, rejeições e pedidos de informação."),
@@ -20,8 +21,9 @@ const TONE: Record<Kind, { tint: string; text: string; icon: string; badge: stri
 function Respostas() {
   const s = useApp();
   return (
-    <AppShell title="Respostas" subtitle="Detectadas futuramente via Gmail somente leitura.">
-      <DisabledAction label="Sincronizar Gmail" why="Gmail ainda não conectado. Será somente leitura (gmail.readonly)." />
+    <AppShell title="Respostas" subtitle="Gmail pendente no app · nenhuma mensagem sincronizada.">
+      <GmailPendingNotice />
+      <DisabledAction label="Sincronizar Gmail" why="Leitura bloqueada até vincular uma conexão somente leitura e proteger o acesso privado às mensagens." />
       {s.responses.length === 0 ? <Empty title="Nenhuma resposta" hint="Nenhuma resposta real foi detectada." /> :
         s.responses.map((r) => {
           const t = TONE[r.kind as Kind] ?? TONE.other;
