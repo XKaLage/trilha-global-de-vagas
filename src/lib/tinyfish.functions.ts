@@ -10,7 +10,7 @@ export const getTinyfishStatus = createServerFn({ method: "GET" }).handler(async
 });
 
 export const searchJobPostings = createServerFn({ method: "POST" })
-  .inputValidator((input) =>
+  .validator((input) =>
     z
       .object({
         query: z.string().trim().min(3).max(300),
@@ -25,7 +25,7 @@ export const searchJobPostings = createServerFn({ method: "POST" })
   });
 
 export const fetchJobPage = createServerFn({ method: "POST" })
-  .inputValidator((input) => z.object({ urls: z.array(z.string().url()).min(1).max(3) }).parse(input))
+  .validator((input) => z.object({ urls: z.array(z.string().url()).min(1).max(3) }).parse(input))
   .handler(async ({ data }) => {
     const r = await tinyfishFetch(data.urls);
     if (!r.ok) return { ok: false as const, error: r.error, pages: [] };
