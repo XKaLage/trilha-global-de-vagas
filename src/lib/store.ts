@@ -90,6 +90,7 @@ export const actions = {
   setSettings: (p: Partial<AppState["settings"]>) => set((s) => ({ ...s, settings: { ...s.settings, ...p } }), ["config.alterar", JSON.stringify(p)]),
 
   addJob: (j: Omit<Job, "id" | "status" | "createdAt">): { ok: boolean; reason?: string } => {
+    ensureLoaded();
     const full: Job = { ...j, id: uid(), status: "discovered", createdAt: now() };
     const dup = isDuplicate(full, state.jobs);
     if (dup) {

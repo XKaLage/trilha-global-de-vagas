@@ -63,8 +63,19 @@ export const defaultRules = (): RuleSet => ({
 const norm = (s: string) =>
   s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
 
-export function evaluate(job: Job, r: RuleSet): { eligible: boolean; score: number; reasons: string[] } {
+export type Evaluation = {
+  eligible: boolean;
+  score: number;
+  reasons: string[];
+  outcome: "matched" | "mismatch" | "missing_information";
+  missingBlockers: (keyof RuleSet)[];
+  mismatchedBlockers: (keyof RuleSet)[];
+};
+
+export function evaluate(job: Job, r: RuleSet): Evaluation {
   const reasons: string[] = [];
+  const missingBlockers: (keyof RuleSet)[] = [];
+  const mismatchedBlockers: (keyof RuleSet)[] = [];
   let eligible = true;
   let score = 0;
   let max = 0;
@@ -73,11 +84,12 @@ export function evaluate(job: Job, r: RuleSet): { eligible: boolean; score: numb
     if (c.mode === "off") return;
     if (pass === undefined) {
       reasons.push(`? ${CRITERIA_LABELS[key]}: informação ausente na vaga`);
+      if (c.mode === "blocker") { eligible = false; missingBlockers.push(key); }
       if (c.mode === "preference") max += c.weight;
       return;
     }
     if (c.mode === "blocker") {
-      if (!pass) { eligible = false; reasons.push(`✗ Bloqueio — ${failMsg}`); }
+      if (!pass) { eligible = false; mismatchedBlockers.push(key); reasons.push(`✗ Bloqueio — ${failMsg}`); }
       else reasons.push(`✓ ${okMsg}`);
     } else {
       max += c.weight;
@@ -105,13 +117,11 @@ export function evaluate(job: Job, r: RuleSet): { eligible: boolean; score: numb
   const text = norm(`${job.title} ${job.description ?? ""} ${job.employer}`);
   const hit = r.exclusions.value.find((x) => x.trim() && text.includes(norm(x)));
   check("exclusions", !hit, "Nenhum termo de exclusão", `Contém termo excluído "${hit}"`);
-  // Unknown values on blockers are treated as not eligible (conservative).
-  for (const k of Object.keys(r) as (keyof RuleSet)[]) {
-    if (r[k].mode === "blocker" && reasons.some((x) => x.startsWith(`? ${CRITERIA_LABELS[k]}`))) {
-      eligible = false;
-    }
-  }
-  return { eligible, score: max ? Math.round((score / max) * 100) : 100, reasons };
+  return {
+    eligible, score: max ? Math.round((score / max) * 100) : 100, reasons,
+    outcome: mismatchedBlockers.length ? "mismatch" : missingBlockers.length ? "missing_information" : "matched",
+    missingBlockers, mismatchedBlockers,
+  };
 }
 
 export function normalizeUrl(raw: string): string {

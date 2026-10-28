@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AppShell, meta } from "@/components/AppShell";
 import { actions, useApp } from "@/lib/store";
-import { CRITERIA_LABELS, defaultRules, evaluate, type CriterionMode, type Job, type RuleSet } from "@/lib/rules";
+import { CRITERIA_LABELS, defaultRules, type CriterionMode, type Job, type RuleSet } from "@/lib/rules";
+import { JobEvaluation } from "@/components/JobEvaluation";
 
 export const Route = createFileRoute("/regras")({
   head: () => meta("Regras", "Editor de regras com bloqueios, preferências ponderadas e versões."),
@@ -62,9 +63,9 @@ function Regras() {
         <section className="surface p-4">
           <h2 className="font-semibold">Teste de v{testV.version} contra vagas registradas</h2>
           {s.jobs.length === 0 ? <p className="text-sm text-muted-foreground mt-1">Sem vagas para testar.</p> :
-            s.jobs.map((j: Job) => { const r = evaluate(j, testV.rules); return (
-              <div key={j.id} className="mt-2 text-sm border-t pt-2"><b>{j.title}</b>: {r.eligible ? `elegível (${r.score}%)` : "rejeitada"}<div className="text-xs text-muted-foreground">{r.reasons.join(" · ")}</div></div>
-            ); })}
+            s.jobs.map((j: Job) => (
+              <div key={j.id} className="mt-2 text-sm border-t pt-2"><b>{j.title}</b><JobEvaluation job={j} version={testV} /></div>
+            ))}
         </section>
       )}
     </AppShell>
