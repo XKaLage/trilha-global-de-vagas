@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { AppShell, DemoBadge, DisabledAction, Empty, meta } from "@/components/AppShell";
 import { actions, useApp } from "@/lib/store";
 import { searchJobPostings } from "@/lib/tinyfish.functions";
@@ -28,6 +28,8 @@ function Vagas() {
   const [hits, setHits] = useState<Hit[]>([]);
   const [searching, setSearching] = useState(false);
   const [searchMsg, setSearchMsg] = useState<string>();
+  const [copiedUrl, setCopiedUrl] = useState<string>();
+  const formRef = useRef<HTMLFormElement>(null);
   const up = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value });
 
   const search = async (e: React.FormEvent) => {
