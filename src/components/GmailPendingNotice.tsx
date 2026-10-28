@@ -10,7 +10,7 @@ export function GmailPendingNotice() {
         <Mail className="size-5 shrink-0" aria-hidden="true" />
         <h2>Gmail pendente no app</h2>
       </div>
-      <p className="mt-2 text-sm">Na verificação de 28/10/2026, as duas conexões Gmail do Lovable não estavam vinculadas a este projeto. O acesso durante a conversa não conecta o app.</p>
+      <p className="mt-2 text-sm">Na verificação de 28/10/2026 às 14:57 UTC, as três conexões Gmail disponíveis no Lovable não estavam vinculadas a este projeto. “Conectado” nas configurações do Lovable indica uma conexão do workspace, não acesso do app às mensagens.</p>
       <p className="mt-2 text-sm">As permissões concedidas também incluem envio, rascunhos e modificação. Esta versão não lê mensagens e mantém todas essas ações bloqueadas.</p>
       <p className="mt-2 text-sm">Para liberar a leitura: ajuste uma conexão para somente <code>gmail.readonly</code> nas configurações abaixo. Antes de vinculá-la, será necessário proteger o acesso às mensagens com identificação segura de quem usa o app; o app atual não tem login. Sem isso, seus e-mails poderiam ficar expostos.</p>
       <Button asChild variant="outline" className="mt-3 min-h-11 h-auto w-full whitespace-normal text-center sm:w-auto">

@@ -5,3 +5,4 @@
 - [x] Refletir conexão pendente e instruções verificadas, preservando dados atuais.
 - [x] Executar testes relevantes e verificar compilação automática e estado pendente no celular.
 - [ ] Liberar leitura Gmail: bloqueada até autorização somente gmail.readonly, vínculo ao projeto e identificação segura do usuário no servidor; Cloud/banco não autorizados.
+- [x] Reavaliar indicação “Conectado”: três conexões sem vínculo; prévia local pendente e site publicado ainda planejado, sem chamadas Gmail ou alterações externas.
