@@ -1,3 +1,3 @@
-- [ ] Corrigir estados e motivos da avaliação sem alterar os bloqueios.
-- [ ] Verificar dados de visto/internacionais e evitar reaproveitar fatos de outra vaga.
-- [ ] Executar testes e conferir o cadastro no celular e no computador.
+- [x] Corrigir estados e motivos da avaliação sem alterar os bloqueios.
+- [x] Verificar dados de visto/internacionais e evitar reaproveitar fatos de outra vaga.
+- [x] Executar testes e conferir o cadastro no celular e no computador.
