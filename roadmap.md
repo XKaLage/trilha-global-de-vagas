@@ -1,3 +1,6 @@
 - [x] Corrigir estados e motivos da avaliação sem alterar os bloqueios.
 - [x] Verificar dados de visto/internacionais e evitar reaproveitar fatos de outra vaga.
 - [x] Executar testes e conferir o cadastro no celular e no computador.
+- [ ] Verificar disponibilidade e escopos do Gmail para o app, sem ativar Cloud ou expor mensagens.
+- [ ] Refletir conexão pendente e instruções verificadas, preservando dados atuais.
+- [ ] Executar testes relevantes e verificar compilação automática e estado pendente no celular.
