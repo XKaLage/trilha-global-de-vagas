@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { AppShell, DemoBadge, DisabledAction, Empty, meta } from "@/components/AppShell";
 import { actions, useApp } from "@/lib/store";
 import { searchJobPostings } from "@/lib/tinyfish.functions";
@@ -28,6 +28,8 @@ function Vagas() {
   const [hits, setHits] = useState<Hit[]>([]);
   const [searching, setSearching] = useState(false);
   const [searchMsg, setSearchMsg] = useState<string>();
+  const [copiedUrl, setCopiedUrl] = useState<string>();
+  const formRef = useRef<HTMLFormElement>(null);
   const up = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value });
 
   const search = async (e: React.FormEvent) => {
@@ -53,7 +55,12 @@ function Vagas() {
 
   const importHit = (h: Hit) => {
     setF({ ...f, url: h.url, title: h.title, employer: h.siteName ?? "", country, description: h.snippet });
-    setMsg("Resultado copiado para o formulário abaixo. Revise e registre.");
+    setCopiedUrl(h.url);
+    setMsg("Resultado copiado para o formulário. Revise os campos e toque em Registrar e avaliar.");
+    // Aguarda o próximo frame para o estado aplicar antes de rolar até o formulário.
+    requestAnimationFrame(() =>
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
+    );
   };
 
   const submit = (e: React.FormEvent) => {
@@ -65,7 +72,10 @@ function Vagas() {
       housing: tri(f.housing), visaSponsorship: tri(f.visa), internationalOk: tri(f.intl), description: f.description,
     });
     setMsg(r.ok ? "Vaga registrada e avaliada." : r.reason);
-    if (r.ok) setF({ ...f, url: "", employer: "", title: "", description: "" });
+    if (r.ok) {
+      setF({ ...f, url: "", employer: "", title: "", description: "" });
+      setCopiedUrl(undefined);
+    }
   };
 
   const sel = (k: "housing" | "visa" | "intl", label: string) => (
@@ -100,14 +110,16 @@ function Vagas() {
                     {h.siteName && <span className="ml-2 text-xs text-muted-foreground">{h.siteName}</span>}
                     {h.snippet && <p className="mt-1 text-sm text-muted-foreground">{h.snippet}</p>}
                   </div>
-                  <button type="button" className="btn btn-ghost shrink-0" onClick={() => importHit(h)}>Usar no formulário</button>
+                  <button type="button" className="btn btn-ghost shrink-0" onClick={() => importHit(h)}>
+                    {copiedUrl === h.url ? "✓ Copiado" : "Usar no formulário"}
+                  </button>
                 </div>
               </li>
             ))}
           </ul>
         )}
       </form>
-      <form onSubmit={submit} className="surface p-4 grid gap-3 md:grid-cols-2">
+      <form ref={formRef} onSubmit={submit} className="surface scroll-mt-4 p-4 grid gap-3 md:grid-cols-2">
         <h2 className="font-semibold md:col-span-2">Adicionar vaga manualmente</h2>
         <label className="text-sm md:col-span-2">URL<input className="field mt-1" inputMode="url" value={f.url} onChange={up("url")} /></label>
         <label className="text-sm">Empregador<input className="field mt-1" value={f.employer} onChange={up("employer")} /></label>
