@@ -10,10 +10,10 @@ export type Integration = {
 
 export const INTEGRATIONS: Integration[] = [
   {
-    id: "tinyfish", name: "TinyFish — busca, fetch e navegador", status: "not_configured",
-    purpose: "Pesquisar e ler páginas de vagas. Automação de navegador desativada nesta versão.",
-    envVars: ["TINYFISH_API_KEY"], cost: "Cobrança por uso do provedor (verificar tabela oficial antes de ativar).",
-    steps: ["Criar conta no provedor e gerar chave", "Adicionar TINYFISH_API_KEY em Segredos do projeto (servidor)", "Implementar verificação no servidor", "Ativar apenas busca/fetch; navegador exige nova autorização"],
+    id: "tinyfish", name: "TinyFish — busca e leitura de páginas", status: "planned",
+    purpose: "Pesquisar vagas e ler páginas (somente leitura). Navegador, agentes, pesquisa profunda e monitores pagos permanecem desativados.",
+    envVars: ["TINYFISH_API_KEY"], cost: "Busca e leitura são gratuitas dentro de uma cota diária; além dela, cobrança por uso do provedor.",
+    steps: ["Chave TINYFISH_API_KEY guardada nos Segredos do projeto (servidor)", "Verificação de conexão disponível abaixo — nunca exibe a chave", "Apenas busca/leitura ativas; navegador e agentes exigem nova autorização"],
   },
   {
     id: "database", name: "Banco de dados persistente", status: "not_configured",
