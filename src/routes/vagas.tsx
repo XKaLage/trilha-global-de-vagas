@@ -72,7 +72,10 @@ function Vagas() {
       housing: tri(f.housing), visaSponsorship: tri(f.visa), internationalOk: tri(f.intl), description: f.description,
     });
     setMsg(r.ok ? "Vaga registrada e avaliada." : r.reason);
-    if (r.ok) setF({ ...f, url: "", employer: "", title: "", description: "" });
+    if (r.ok) {
+      setF({ ...f, url: "", employer: "", title: "", description: "" });
+      setCopiedUrl(undefined);
+    }
   };
 
   const sel = (k: "housing" | "visa" | "intl", label: string) => (
