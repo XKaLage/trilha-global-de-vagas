@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AppShell, meta } from "@/components/AppShell";
 import { actions, useApp } from "@/lib/store";
-import { CRITERIA_LABELS, defaultRules, evaluate, type CriterionMode, type Job, type RuleSet } from "@/lib/rules";
+import { CRITERIA_LABELS, defaultRules, type CriterionMode, type Job, type RuleSet } from "@/lib/rules";
 import { JobEvaluation } from "@/components/JobEvaluation";
 
 export const Route = createFileRoute("/regras")({
