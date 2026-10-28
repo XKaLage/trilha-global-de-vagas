@@ -42,7 +42,9 @@ function isPublicHttpUrl(raw: string): boolean {
     if (h === "localhost" || h.endsWith(".localhost") || h.endsWith(".internal")) return false;
     // Bloqueia literais de IP privado/loopback (o provedor também rejeita, mas validamos antes)
     if (/^\d+\.\d+\.\d+\.\d+$/.test(h)) {
-      const [a, b] = h.split(".").map(Number);
+      const parts = h.split(".").map(Number);
+      const a = parts[0] ?? -1;
+      const b = parts[1] ?? -1;
       if (a === 10 || a === 127 || a === 0 || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168) || (a === 169 && b === 254)) return false;
     }
     if (h === "::1" || h.startsWith("[")) return false;
@@ -76,12 +78,14 @@ export async function tinyfishSearch(
     const results: TinyfishSearchResult[] = (Array.isArray(raw) ? raw : [])
       .map((r) => {
         const o = r as Record<string, unknown>;
-        return {
-          title: String(o.title ?? ""),
-          url: String(o.url ?? ""),
-          snippet: String(o.snippet ?? ""),
-          siteName: o.site_name ? String(o.site_name) : undefined,
+        const site = o["site_name"];
+        const out: TinyfishSearchResult = {
+          title: String(o["title"] ?? ""),
+          url: String(o["url"] ?? ""),
+          snippet: String(o["snippet"] ?? ""),
         };
+        if (site) out.siteName = String(site);
+        return out;
       })
       .filter((r) => r.title && isPublicHttpUrl(r.url))
       .slice(0, 10);
@@ -114,9 +118,9 @@ export async function tinyfishFetch(
     const list = Array.isArray(raw) ? raw : [];
     const pages: TinyfishFetchResult[] = list.map((p) => {
       const o = p as Record<string, unknown>;
-      const full = String(o.text ?? o.markdown ?? "");
+      const full = String(o["text"] ?? o["markdown"] ?? "");
       return {
-        url: String(o.url ?? ""),
+        url: String(o["url"] ?? ""),
         text: full.slice(0, MAX_TEXT_CHARS),
         truncated: full.length > MAX_TEXT_CHARS,
       };
