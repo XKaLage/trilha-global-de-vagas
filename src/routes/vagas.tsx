@@ -3,6 +3,9 @@ import { useRef, useState } from "react";
 import { AppShell, DemoBadge, DisabledAction, Empty, meta } from "@/components/AppShell";
 import { actions, useApp } from "@/lib/store";
 import { searchJobPostings } from "@/lib/tinyfish.functions";
+import { JobEvaluation } from "@/components/JobEvaluation";
+import { Button } from "@/components/ui/button";
+import { evaluate } from "@/lib/rules";
 
 export const Route = createFileRoute("/vagas")({
   head: () => meta("Vagas", "Vagas descobertas, elegibilidade e motivos de correspondência."),
@@ -71,9 +74,9 @@ function Vagas() {
       payHourlyUsd: f.pay ? Number(f.pay) : undefined, experienceYears: f.exp ? Number(f.exp) : undefined,
       housing: tri(f.housing), visaSponsorship: tri(f.visa), internationalOk: tri(f.intl), description: f.description,
     });
-    setMsg(r.ok ? "Vaga registrada e avaliada." : r.reason);
+    setMsg(r.ok ? (s.versions.some((v) => v.status === "active") ? "Vaga registrada e avaliada com as regras ativas." : "Vaga registrada, ainda não avaliada: ative uma versão em Regras.") : r.reason);
     if (r.ok) {
-      setF({ ...f, url: "", employer: "", title: "", description: "" });
+      setF({ url: "", employer: "", title: "", location: "", country: f.country, pay: "", exp: "", housing: "", visa: "", intl: "", description: "" });
       setCopiedUrl(undefined);
     }
   };
@@ -128,32 +131,32 @@ function Vagas() {
         <label className="text-sm">País<select className="field mt-1" value={f.country} onChange={up("country")}><option value="US">EUA</option><option value="CA">Canadá</option></select></label>
         <label className="text-sm">Pagamento (USD/h)<input className="field mt-1" inputMode="decimal" value={f.pay} onChange={up("pay")} /></label>
         <label className="text-sm">Experiência exigida (anos)<input className="field mt-1" inputMode="numeric" value={f.exp} onChange={up("exp")} /></label>
-        {sel("housing", "Moradia")}{sel("visa", "Patrocínio de visto")}{sel("intl", "Aceita internacionais")}
+        {sel("housing", "Moradia informada na vaga")}{sel("visa", "Patrocínio de visto informado na vaga")}{sel("intl", "Aceita internacionais, conforme a vaga")}
         <label className="text-sm md:col-span-2">Descrição<textarea className="field mt-1" rows={3} value={f.description} onChange={up("description")} /></label>
         <button className="btn btn-primary md:col-span-2">Registrar e avaliar</button>
         {msg && <p role="status" className="text-sm md:col-span-2">{msg}</p>}
       </form>
       {s.jobs.length === 0 ? <Empty title="Nenhuma vaga registrada" hint="Busque acima, adicione manualmente ou carregue exemplos na Visão Geral." /> :
-        s.jobs.map((j) => (
-          <article key={j.id} className={`surface p-4 lift ${j.eligible ? "tint-success" : "tint-danger"}`}>
+        s.jobs.map((j) => {
+          const version = s.versions.find((v) => v.id === j.ruleVersionId);
+          const result = version ? evaluate(j, version.rules) : undefined;
+          return (
+          <article key={j.id} className={`surface p-4 lift ${!result || result.outcome === "missing_information" ? "tint-warning" : result.eligible ? "tint-success" : "tint-danger"}`}>
             <div className="flex items-start justify-between gap-2">
-              <div>
+              <div className="min-w-0 break-words">
                 <h3 className="font-semibold">{j.title} {j.demo && <DemoBadge />}</h3>
                 <p className="text-sm text-muted-foreground">{j.employer} · {j.location} · {j.country}</p>
               </div>
-              <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${j.eligible ? "bg-success text-primary-foreground" : "bg-destructive text-destructive-foreground"}`}>
-                {j.eligible ? `Elegível · ${j.score}%` : "Rejeitada"}
-              </span>
             </div>
-            <ul className="mt-2 space-y-0.5 text-sm">{j.reasons?.map((r, i) => <li key={i}>{r}</li>)}</ul>
+            <JobEvaluation job={j} version={version} />
             <p className="mt-1 text-xs text-muted-foreground">Status: {j.status} · regras {j.ruleVersionId ?? "—"}</p>
             <div className="mt-3 grid grid-cols-2 gap-2">
-              <button className="btn btn-ghost" disabled={!j.eligible || j.status !== "discovered"} onClick={() => actions.queueJob(j.id)}>Pôr na fila</button>
-              <button className="btn btn-ghost" onClick={() => actions.removeJob(j.id)}>Remover</button>
+              <Button variant="secondary" className="min-h-11" disabled={!result?.eligible || j.status !== "discovered"} onClick={() => actions.queueJob(j.id)}>Pôr na fila</Button>
+              <Button variant="secondary" className="min-h-11" onClick={() => actions.removeJob(j.id)}>Remover</Button>
             </div>
             <div className="mt-2"><DisabledAction label="Enviar candidatura" why="Candidaturas reais desativadas nesta versão inicial." /></div>
           </article>
-        ))}
+        ); })}
     </AppShell>
   );
 }
