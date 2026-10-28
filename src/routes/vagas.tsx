@@ -57,7 +57,7 @@ function Vagas() {
   };
 
   const importHit = (h: Hit) => {
-    setF({ ...f, url: h.url, title: h.title, employer: h.siteName ?? "", country, description: h.snippet });
+    setF({ url: h.url, title: h.title, employer: h.siteName ?? "", country, description: h.snippet, location: "", pay: "", exp: "", housing: "", visa: "", intl: "" });
     setCopiedUrl(h.url);
     setMsg("Resultado copiado para o formulário. Revise os campos e toque em Registrar e avaliar.");
     // Aguarda o próximo frame para o estado aplicar antes de rolar até o formulário.
