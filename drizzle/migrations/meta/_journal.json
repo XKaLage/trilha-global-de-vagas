@@ -29,6 +29,13 @@
       "when": 1793575739899,
       "tag": "0003_foundation_authorization_evidence",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793575799986,
+      "tag": "0004_foundation_explicit_least_privilege",
+      "breakpoints": true
     }
   ]
 }
