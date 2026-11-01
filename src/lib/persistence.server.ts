@@ -3,10 +3,14 @@ import type { Database } from "@/integrations/supabase/types";
 
 export type UserDatabase = SupabaseClient<Database>;
 export type PersistentTable = Exclude<keyof Database["public"]["Tables"], "profiles" | "user_roles">;
-export async function readOwnedTable<T extends PersistentTable>(db: UserDatabase, userId: string, table: T, offset = 0) {
-  const query = db.from(table).select("*");
-  // Sources are a curated shared catalog; every other read explicitly scopes ownership in addition to RLS.
-  const { data, error } = await (table === "job_sources" ? query : query.eq("owner_id", userId)).order("id").range(offset, offset + 99);
+export async function readOwnedTable(db: UserDatabase, userId: string, table: PersistentTable, offset = 0) {
+  // Narrow the shared catalog separately so owner_id is guaranteed on the remaining union.
+  if (table === "job_sources") {
+    const { data, error } = await db.from("job_sources").select("*").order("id").range(offset, offset + 99);
+    if (error) throw new Error("Não foi possível consultar as fontes permitidas.");
+    return data;
+  }
+  const { data, error } = await db.from(table).select("*").eq("owner_id", userId).order("id").range(offset, offset + 99);
   if (error) throw new Error("Não foi possível consultar seus registros persistentes.");
   return data;
 }
