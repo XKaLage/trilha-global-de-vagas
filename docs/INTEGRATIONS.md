@@ -28,7 +28,7 @@ Regras: nunca pedir senhas ou códigos de verificação; sem candidaturas reais,
 
 ## Fundação persistente — 01/11/2026
 
-- Migrations versionadas em `drizzle/migrations/`: esquema relacional e comandos seguros; sem seeds ou dados pessoais. Tipos gerados pela integração existente.
+- Quatro migrations aplicadas em `drizzle/migrations/`: `0000_multi_candidate_foundation.sql`, `0001_foundation_secure_commands.sql`, `0002_foundation_validation_hardening.sql`, `0003_foundation_authorization_evidence.sql`; sem seeds ou dados pessoais. Tipos gerados pela integração existente.
 - Tabelas: `profiles` (ponte para auth.users), `user_roles`, `candidate_profiles`, `candidate_experiences`, `candidate_education`, `candidate_certifications`, `candidate_documents`, `job_sources`, `jobs`, `job_evaluations`, `rule_sets`, `applications`, `employer_messages`, `audit_events`. Todas com RLS e grants explícitos, nenhum acesso anônimo aos registros.
 - `candidate_profiles.owner_id` referencia `public.profiles`, que referencia `auth.users` com cascade. Campos profissionais e sponsorship permitem null/unknown. Nenhum perfil real criado.
 - Fontes são catálogo compartilhado curado; apenas fontes permitidas são visíveis para candidatos. Jobs são privados por conta, com unique(owner_id,dedup_key) e fingerprint. As funções server-side preservam normalizeUrl/fingerprint/evaluate existentes.
@@ -51,3 +51,11 @@ O operador autorizado deve, em trabalho futuro explicitamente autorizado, usar a
 ### Custos e limites
 
 Nenhuma dependência ou serviço adicional contratado; somente banco Cloud existente. Operações Cloud podem consumir créditos além da franquia; a ferramenta de migration não informou custo numérico, saldo ou cobrança. Bucket pendente. Leituras privadas paginadas em lotes de 100; sem polling, monitor, chamadas Gmail ou TinyFish nesta entrega. Verificação pública consulta apenas flags do esquema.
+
+### Validação e limites da verificação
+
+- 28 testes Vitest: regras (11), store (3), integrações (4), política persistente (9), navegação (1).
+- `src/test/persistence-schema.sql` valida catálogo/grants/RLS/constraints sem gravar dados.
+- `src/test/persistence-isolation.sql` contém fixtures DEMO em transação com rollback para um operador autorizado executar em ambiente de teste com permissão auth. A execução nesta entrega foi interrompida por `permission denied for schema auth` antes de inserir usuários; portanto isolamento autenticado de ponta a ponta e trigger de provisionamento NÃO foram verificados com sessões reais. Não ampliar permissões do sandbox para contornar isso.
+- Inspeção RLS confirmou 14 tabelas protegidas e zero contas/candidatos/vagas. O linter sinaliza funções SECURITY DEFINER autenticadas por desenho: auth.uid() e ownership são checados, grants anônimos revogados; o status público é SECURITY INVOKER. Avisos não foram ocultados e não equivalem a auditoria completa.
+- Prévia móvel: banco/esquema verificados no servidor; acesso sem sessão bloqueado; bytes de fixture local preservados, sem transbordamento ou erros de execução. Nenhum fluxo autenticado foi inventado ou testado criando usuários.
