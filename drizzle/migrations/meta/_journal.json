@@ -22,6 +22,13 @@
       "when": 1793575629943,
       "tag": "0002_foundation_validation_hardening",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793575739899,
+      "tag": "0003_foundation_authorization_evidence",
+      "breakpoints": true
     }
   ]
 }

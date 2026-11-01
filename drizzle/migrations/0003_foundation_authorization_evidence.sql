@@ -1,0 +1,4 @@
+ALTER TABLE public.applications ADD CONSTRAINT application_authorization_evidence CHECK(status NOT IN ('authorized','submitted','confirmed','uncertain','failed') OR (authorized_at IS NOT NULL AND authorized_by IS NOT NULL AND authorized_by=owner_id AND authorization_note IS NOT NULL AND length(trim(authorization_note))>0));
+ALTER TABLE public.jobs ADD CONSTRAINT jobs_nonempty_dedup CHECK(length(trim(dedup_key))>0 AND length(trim(fingerprint))>0);
+CREATE INDEX audit_owner_time ON public.audit_events(owner_id,occurred_at DESC);
+COMMENT ON TABLE public.applications IS 'Authorization evidence mandatory; server derives actor, selection/authorization database-only. No submission executor. External terminal statuses blocked in this delivery.';
