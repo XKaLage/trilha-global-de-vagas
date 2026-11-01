@@ -1,5 +1,41 @@
 {
   "version": "7",
   "dialect": "postgresql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1793575462808,
+      "tag": "0000_multi_candidate_foundation",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793575515534,
+      "tag": "0001_foundation_secure_commands",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793575629943,
+      "tag": "0002_foundation_validation_hardening",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793575739899,
+      "tag": "0003_foundation_authorization_evidence",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793575799986,
+      "tag": "0004_foundation_explicit_least_privilege",
+      "breakpoints": true
+    }
+  ]
 }

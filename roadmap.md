@@ -4,5 +4,12 @@
 - [x] Verificar disponibilidade e escopos do Gmail para o app, sem ativar Cloud ou expor mensagens.
 - [x] Refletir conexão pendente e instruções verificadas, preservando dados atuais.
 - [x] Executar testes relevantes e verificar compilação automática e estado pendente no celular.
-- [ ] Liberar leitura Gmail: bloqueada até autorização somente gmail.readonly, vínculo ao projeto e identificação segura do usuário no servidor; Cloud/banco não autorizados.
+- [ ] Liberar leitura Gmail: bloqueada até autorização somente gmail.readonly, vínculo ao projeto e identificação segura do usuário no servidor.
 - [x] Reavaliar indicação “Conectado”: três conexões sem vínculo; prévia local pendente e site publicado ainda planejado, sem chamadas Gmail ou alterações externas.
+- [x] Aplicar cinco migrations multi-candidato com RLS, autorização, deduplicação e remoção de grants automáticos excessivos.
+- [x] Criar acesso tipado seguro e fundação de sessão privada /auth, sem cadastro público ou contas.
+- [x] Documentar estado real, migração local futura e verificar testes/banco/prévia.
+- [ ] Obter sessão privada: método de entrada/provisionamento depende de autorização futura; nenhum login/provider ativado.
+- [ ] Validar isolamento autenticado com fixtures em ambiente autorizado: conexão de testes não tem permissão no schema auth.
+- [ ] Criar bucket/upload privado: pendente confirmação de franquia/custo.
+- [ ] Implementar migração local explícita: pendente autorização futura e backup/exportação/idempotência.

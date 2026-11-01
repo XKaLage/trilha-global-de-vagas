@@ -1,0 +1,8 @@
+REVOKE ALL ON TABLE public.profiles,public.user_roles,public.candidate_profiles,public.candidate_experiences,public.candidate_education,public.candidate_certifications,public.candidate_documents,public.job_sources,public.jobs,public.job_evaluations,public.rule_sets,public.applications,public.employer_messages,public.audit_events FROM anon,authenticated;
+GRANT SELECT ON public.profiles,public.user_roles,public.candidate_profiles,public.candidate_documents,public.job_sources,public.jobs,public.job_evaluations,public.rule_sets,public.applications,public.employer_messages,public.audit_events TO authenticated;
+GRANT UPDATE ON public.candidate_profiles TO authenticated;
+GRANT SELECT,INSERT,UPDATE,DELETE ON public.candidate_experiences,public.candidate_education,public.candidate_certifications TO authenticated;
+REVOKE ALL ON ALL FUNCTIONS IN SCHEMA public FROM PUBLIC,anon;
+GRANT EXECUTE ON FUNCTION public.foundation_health() TO anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.foundation_admin(),public.foundation_owned_candidate(),public.foundation_save_job(jsonb),public.foundation_save_rules(jsonb,text),public.foundation_set_rule_status(uuid,text),public.foundation_record_evaluation(uuid,uuid,text,integer,jsonb,jsonb),public.foundation_select_job(uuid),public.foundation_authorize_application(uuid,boolean,text) TO authenticated;
+COMMENT ON TABLE public.profiles IS 'Explicit least-privilege grants override automatic default grants; only own identity read permitted.';

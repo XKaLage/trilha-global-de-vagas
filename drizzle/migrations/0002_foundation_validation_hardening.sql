@@ -1,0 +1,7 @@
+ALTER FUNCTION public.foundation_health() SECURITY INVOKER;
+ALTER TABLE public.job_evaluations ADD CONSTRAINT evaluations_missing_not_compatible CHECK(classification<>'compatible' OR jsonb_array_length(missing_data)=0);
+ALTER TABLE public.audit_events ADD CONSTRAINT audit_candidate_owner FOREIGN KEY(candidate_id,owner_id) REFERENCES public.candidate_profiles(id,owner_id);
+CREATE FUNCTION public.foundation_validate_document_path() RETURNS trigger LANGUAGE plpgsql SET search_path=public AS $$ BEGIN IF NEW.storage_path NOT LIKE NEW.owner_id::text || '/' || NEW.candidate_id::text || '/%' OR NEW.storage_path LIKE '%..%' THEN RAISE EXCEPTION 'Private owner path required'; END IF; RETURN NEW; END $$;
+REVOKE ALL ON FUNCTION public.foundation_validate_document_path() FROM PUBLIC,anon,authenticated;
+CREATE TRIGGER documents_private_path BEFORE INSERT OR UPDATE ON public.candidate_documents FOR EACH ROW EXECUTE FUNCTION public.foundation_validate_document_path();
+COMMENT ON TABLE public.job_evaluations IS 'Advisory candidate-scoped evaluations only, never an authorization source. Recomputed by server adapter using existing evaluate(); database FK isolation and missing-blocker constraints enforced.';
