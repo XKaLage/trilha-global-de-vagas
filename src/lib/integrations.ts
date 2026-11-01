@@ -1,6 +1,6 @@
 // Modular integration adapters. Every status is truthful: nothing is "connected"
 // until a server-side verification succeeds. Secrets live only in server env vars.
-export type IntegrationStatus = "not_configured" | "planned" | "pending" | "disabled_by_policy";
+export type IntegrationStatus = "not_configured" | "planned" | "pending" | "disabled_by_policy" | "infrastructure_enabled";
 
 export type Integration = {
   id: string; name: string; purpose: string; status: IntegrationStatus;
@@ -16,10 +16,10 @@ export const INTEGRATIONS: Integration[] = [
     steps: ["Chave TINYFISH_API_KEY guardada nos Segredos do projeto (servidor)", "Verificação de conexão disponível abaixo — nunca exibe a chave", "Apenas busca/leitura ativas; navegador e agentes exigem nova autorização"],
   },
   {
-    id: "database", name: "Banco de dados persistente", status: "not_configured",
-    purpose: "Guardar vagas, regras e auditoria entre dispositivos. Hoje os dados ficam apenas neste navegador (sem segredos).",
-    envVars: ["SUPABASE_URL", "SUPABASE_PUBLISHABLE_KEY"], cost: "Lovable Cloud: incluso com limites de uso.",
-    steps: ["Ativar Lovable Cloud", "Criar tabelas com RLS", "Migrar dados locais"],
+    id: "database", name: "Banco de dados persistente", status: "infrastructure_enabled",
+    purpose: "Lovable Cloud habilitado. Base multi-candidato preparada, sem importar os dados deste navegador.",
+    envVars: ["SUPABASE_URL", "SUPABASE_PUBLISHABLE_KEY"], cost: "Uso além da franquia pode consumir créditos. Nenhum serviço adicional ativado.",
+    steps: ["Verificar infraestrutura e esquema abaixo", "Provisionar acesso privado por candidato", "Migração futura somente com autorização, backup e prevenção de duplicatas"],
   },
   {
     id: "gmail", name: "Gmail (somente leitura)", status: "pending",
@@ -46,6 +46,7 @@ export const INTEGRATIONS: Integration[] = [
 ];
 
 export const STATUS_LABEL: Record<IntegrationStatus, string> = {
+  infrastructure_enabled: "Infraestrutura habilitada",
   pending: "Pendente no app",
   not_configured: "Não configurado",
   planned: "Planejado",

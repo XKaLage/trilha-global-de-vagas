@@ -4,6 +4,7 @@ import { AppShell, DisabledAction, meta } from "@/components/AppShell";
 import { INTEGRATIONS, STATUS_LABEL } from "@/lib/integrations";
 import { getTinyfishStatus } from "@/lib/tinyfish.functions";
 import { GmailPendingNotice } from "@/components/GmailPendingNotice";
+import { PersistenceStatus } from "@/components/PersistenceStatus";
 
 export const Route = createFileRoute("/integracoes")({
   head: () => meta("Integrações", "Status real das integrações e passos de configuração segura."),
@@ -67,6 +68,8 @@ function Integracoes() {
           <ol className="mt-2 list-decimal pl-5 text-sm space-y-0.5">{i.steps.map((s) => <li key={s}>{s}</li>)}</ol>
           {i.id === "tinyfish" ? (
             <TinyfishStatusCard />
+          ) : i.id === "database" ? (
+            <PersistenceStatus />
           ) : i.id === "gmail" ? (
             <div className="mt-3"><GmailPendingNotice /></div>
           ) : (

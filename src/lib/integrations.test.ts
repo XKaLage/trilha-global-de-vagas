@@ -14,7 +14,7 @@ describe("integration safety policy", () => {
     expect(INTEGRATIONS.find((integration) => integration.id === "notifications")?.status).toBe("disabled_by_policy");
   });
 
-  it("does not enable a database", () => {
-    expect(INTEGRATIONS.find((integration) => integration.id === "database")?.status).toBe("not_configured");
+  it("reports the explicitly enabled database infrastructure without claiming runtime verification", () => {
+    expect(INTEGRATIONS.find((integration) => integration.id === "database")?.status).toBe("infrastructure_enabled");
   });
 });
