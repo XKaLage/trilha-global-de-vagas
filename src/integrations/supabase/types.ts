@@ -677,7 +677,33 @@ export type Database = {
     }
     Functions: {
       foundation_admin: { Args: never; Returns: boolean }
+      foundation_authorize_application: {
+        Args: { p_confirmation: boolean; p_id: string; p_note: string }
+        Returns: undefined
+      }
       foundation_health: { Args: never; Returns: Json }
+      foundation_owned_candidate: { Args: never; Returns: string }
+      foundation_record_evaluation: {
+        Args: {
+          p_classification: string
+          p_job: string
+          p_missing: Json
+          p_reasons: Json
+          p_rule: string
+          p_score: number
+        }
+        Returns: string
+      }
+      foundation_save_job: { Args: { p_job: Json }; Returns: string }
+      foundation_save_rules: {
+        Args: { p_note: string; p_rules: Json }
+        Returns: string
+      }
+      foundation_select_job: { Args: { p_job: string }; Returns: string }
+      foundation_set_rule_status: {
+        Args: { p_id: string; p_status: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

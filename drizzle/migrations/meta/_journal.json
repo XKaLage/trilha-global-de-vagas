@@ -8,6 +8,13 @@
       "when": 1793575462808,
       "tag": "0000_multi_candidate_foundation",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793575515534,
+      "tag": "0001_foundation_secure_commands",
+      "breakpoints": true
     }
   ]
 }
