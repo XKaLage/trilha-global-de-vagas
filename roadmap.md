@@ -6,7 +6,7 @@
 - [x] Executar testes relevantes e verificar compilação automática e estado pendente no celular.
 - [ ] Liberar leitura Gmail: bloqueada até autorização somente gmail.readonly, vínculo ao projeto e identificação segura do usuário no servidor.
 - [x] Reavaliar indicação “Conectado”: três conexões sem vínculo; prévia local pendente e site publicado ainda planejado, sem chamadas Gmail ou alterações externas.
-- [x] Aplicar quatro migrations multi-candidato com RLS, autorização e deduplicação.
+- [x] Aplicar cinco migrations multi-candidato com RLS, autorização, deduplicação e remoção de grants automáticos excessivos.
 - [x] Criar acesso tipado seguro e fundação de sessão privada /auth, sem cadastro público ou contas.
 - [x] Documentar estado real, migração local futura e verificar testes/banco/prévia.
 - [ ] Obter sessão privada: método de entrada/provisionamento depende de autorização futura; nenhum login/provider ativado.
