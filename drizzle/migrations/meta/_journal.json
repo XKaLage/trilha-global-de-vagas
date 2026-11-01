@@ -15,6 +15,13 @@
       "when": 1793575515534,
       "tag": "0001_foundation_secure_commands",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793575629943,
+      "tag": "0002_foundation_validation_hardening",
+      "breakpoints": true
     }
   ]
 }

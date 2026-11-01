@@ -117,6 +117,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "audit_candidate_owner"
+            columns: ["candidate_id", "owner_id"]
+            isOneToOne: false
+            referencedRelation: "candidate_profiles"
+            referencedColumns: ["id", "owner_id"]
+          },
+          {
             foreignKeyName: "audit_events_actor_id_fkey"
             columns: ["actor_id"]
             isOneToOne: false
