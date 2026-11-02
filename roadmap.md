@@ -1,3 +1,4 @@
+- [ ] Adicionar MCP protegido e ferramentas locais de leitura, preservando bloqueios; conexão completa depende de sessão provisionada e republicação autorizada.
 - [x] Corrigir estados e motivos da avaliação sem alterar os bloqueios.
 - [x] Verificar dados de visto/internacionais e evitar reaproveitar fatos de outra vaga.
 - [x] Executar testes e conferir o cadastro no celular e no computador.
