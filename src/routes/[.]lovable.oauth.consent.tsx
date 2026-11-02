@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, redirect, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell, meta } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
@@ -40,8 +40,10 @@ function Consent() {
   if (!("client" in details)) return <AppShell title="Autorização indisponível"><p>Reinicie a conexão pelo agente.</p></AppShell>;
   return <AppShell title={`Conectar ${details.client.name} à Trilha Global de Vagas`}>
     <p>Permitir consultas das suas vagas persistentes e versões de regras, respeitando suas permissões.</p>
+    <p className="text-sm break-all">Conta: {details.user.email}</p>
+    <Button asChild variant="link"><Link to="/auth" search={{ next: `/.lovable/oauth/consent?authorization_id=${encodeURIComponent(authorization_id)}` }}>Gerenciar sessão</Link></Button>
     <p className="text-sm break-all">Destino do agente: {details.redirect_uri}</p>
-    <p className="text-sm">Identidade solicitada: {details.scope || "Não informada"}</p>
+    <ul className="text-sm list-disc pl-5">{details.scope.split(" ").filter(Boolean).map((scope) => <li key={scope}>{scope === "openid" ? "Confirmar sua identidade" : scope === "email" ? "Compartilhar seu endereço de e-mail" : scope === "profile" ? "Compartilhar seu perfil básico" : `Permissão adicional solicitada: ${scope}`}</li>)}</ul>
     <p className="text-sm">Sem acesso ao Gmail, documentos, dados locais ou envio de candidaturas.</p>
     {error && <p role="alert">{error}</p>}
     <div className="flex flex-wrap gap-3"><Button disabled={busy} onClick={() => decide(true)}>Permitir consultas</Button><Button variant="outline" disabled={busy} onClick={() => decide(false)}>Cancelar conexão</Button></div>
