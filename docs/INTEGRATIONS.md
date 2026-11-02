@@ -7,6 +7,7 @@
 - Consentimento em `/.lovable/oauth/consent`; falta de sessão encaminha para `/auth` preservando o pedido. `/auth` continua sem login: a conexão externa completa permanece bloqueada até provisionamento e autorização do método de entrada privado. Não contornar com tokens copiados ou acesso público.
 - Companion WebMCP na página Integrações: `read_agent_integration_status`, somente leitura do estado exibido, sem chamadas externas. Telemetria contém apenas nome estático, resultado e duração.
 - Catálogo gerado não prova disponibilidade publicada. Republicar somente quando autorizado, após concluir o acesso privado e validar permitir/cancelar com sessões reais. A versão publicada anterior permanece inalterada.
+- Validação desta entrega: manifest extraído com duas ferramentas; 34 testes passaram; compilação automática OK. Prévia móvel sem overflow/erros: pedido preservado ao bloquear sessão ausente, solicitação ausente tratada e `/mcp` rejeita acesso anônimo com 401. Chromium de teste não dispõe de WebMCP, logo registro nativo não foi verificado. Permitir/cancelar, pedido já autorizado, falhas de provider e isolamento via tokens OAuth reais continuam pendentes de conta/login; nenhuma conta criada para simular sucesso.
 
 Segredos vão somente em variáveis de ambiente do servidor (Segredos do projeto), nunca no navegador/localStorage.
 
