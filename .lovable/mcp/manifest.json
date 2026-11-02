@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "sdk_version": "3.4.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://bvdexsdpgmrvurmaeftw.supabase.co/auth/v1",
+    "require_oauth_client_claim": true,
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "trilha-global-de-vagas",
+      "version": "0.1.0",
+      "title": "Trilha Global De Vagas"
+    },
+    "tools": [
+      {
+        "name": "list_jobs",
+        "title": "Consultar minhas vagas",
+        "description": "Consulta até 50 vagas persistentes da conta autorizada; não lê dados locais nem executa candidaturas.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "offset": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10000,
+              "default": 0,
+              "description": "Posição inicial da página de até 50 vagas."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_rule_versions",
+        "title": "Consultar versões de regras",
+        "description": "Consulta até 50 versões persistentes de regras da conta autorizada sem alterar ou ativar regras.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
