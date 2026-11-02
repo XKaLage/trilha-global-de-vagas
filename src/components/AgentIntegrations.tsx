@@ -14,6 +14,9 @@ export function AgentIntegrations() {
   return <section className="space-y-3 border-b pb-4">
     <h2 className="font-semibold">Integrações de agentes · MCP</h2>
     <p className="text-sm">{SUMMARY}</p>
-    <Button asChild variant="outline"><Link to="/auth" search={{ next: "/" }}>Acesso privado</Link></Button>
+    <div className="flex flex-wrap gap-2">
+      <Button asChild variant="outline"><Link to="/conectar">Como conectar um agente</Link></Button>
+      <Button asChild variant="outline"><Link to="/auth" search={{ next: "/" }}>Acesso privado</Link></Button>
+    </div>
   </section>;
 }

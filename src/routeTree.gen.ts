@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuditoriaRouteImport } from './routes/auditoria'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ConectarRouteImport } from './routes/conectar'
 import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
 import { Route as HistoricoRouteImport } from './routes/historico'
 import { Route as IntegracoesRouteImport } from './routes/integracoes'
@@ -36,6 +37,11 @@ const AuditoriaRoute = AuditoriaRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConectarRoute = ConectarRouteImport.update({
+  id: '/conectar',
+  path: '/conectar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
   '/auth': typeof AuthRoute
+  '/conectar': typeof ConectarRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/historico': typeof HistoricoRoute
   '/integracoes': typeof IntegracoesRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
   '/auth': typeof AuthRoute
+  '/conectar': typeof ConectarRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/historico': typeof HistoricoRoute
   '/integracoes': typeof IntegracoesRoute
@@ -125,6 +133,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auditoria': typeof AuditoriaRoute
   '/auth': typeof AuthRoute
+  '/conectar': typeof ConectarRoute
   '/configuracoes': typeof ConfiguracoesRoute
   '/historico': typeof HistoricoRoute
   '/integracoes': typeof IntegracoesRoute
@@ -142,6 +151,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auditoria'
     | '/auth'
+    | '/conectar'
     | '/configuracoes'
     | '/historico'
     | '/integracoes'
@@ -157,6 +167,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auditoria'
     | '/auth'
+    | '/conectar'
     | '/configuracoes'
     | '/historico'
     | '/integracoes'
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auditoria'
     | '/auth'
+    | '/conectar'
     | '/configuracoes'
     | '/historico'
     | '/integracoes'
@@ -188,6 +200,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuditoriaRoute: typeof AuditoriaRoute
   AuthRoute: typeof AuthRoute
+  ConectarRoute: typeof ConectarRoute
   ConfiguracoesRoute: typeof ConfiguracoesRoute
   HistoricoRoute: typeof HistoricoRoute
   IntegracoesRoute: typeof IntegracoesRoute
@@ -221,6 +234,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conectar': {
+      id: '/conectar'
+      path: '/conectar'
+      fullPath: '/conectar'
+      preLoaderRoute: typeof ConectarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/configuracoes': {
@@ -300,6 +320,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuditoriaRoute: AuditoriaRoute,
   AuthRoute: AuthRoute,
+  ConectarRoute: ConectarRoute,
   ConfiguracoesRoute: ConfiguracoesRoute,
   HistoricoRoute: HistoricoRoute,
   IntegracoesRoute: IntegracoesRoute,
