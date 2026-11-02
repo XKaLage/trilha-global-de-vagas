@@ -5,6 +5,7 @@ import { INTEGRATIONS, STATUS_LABEL } from "@/lib/integrations";
 import { getTinyfishStatus } from "@/lib/tinyfish.functions";
 import { GmailPendingNotice } from "@/components/GmailPendingNotice";
 import { PersistenceStatus } from "@/components/PersistenceStatus";
+import { AgentIntegrations } from "@/components/AgentIntegrations";
 
 export const Route = createFileRoute("/integracoes")({
   head: () => meta("Integrações", "Status real das integrações e passos de configuração segura."),
@@ -50,6 +51,7 @@ function TinyfishStatusCard() {
 function Integracoes() {
   return (
     <AppShell title="Integrações" subtitle="Status só muda após verificação no servidor. Nenhuma chave aparece no navegador.">
+      <AgentIntegrations />
       {INTEGRATIONS.map((i) => (
         <article key={i.id} className="surface p-4 lift">
           <div className="flex items-start justify-between gap-2">

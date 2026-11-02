@@ -14,6 +14,6 @@ export function PersistenceStatus() {
     <Button variant="outline" disabled={pending} onClick={verify}>{pending ? "Verificando…" : "Verificar banco e esquema"}</Button>
     <p role="status" className="text-sm">{error ? "Verificação indisponível; tente novamente." : result ? `Infraestrutura ${result.infrastructure ? "verificada" : "indisponível"} · Esquema ${result.schema ? `implantado (v${result.version})` : "não verificado"}` : "Infraestrutura habilitada; verificação do esquema disponível."}</p>
     <p className="text-xs text-muted-foreground">Dados locais preservados. Migração, documentos e Gmail permanecem bloqueados.</p>
-    <Button asChild variant="link"><Link to="/auth">Acesso privado</Link></Button>
+    <Button asChild variant="link"><Link to="/auth" search={{ next: "/" }}>Acesso privado</Link></Button>
   </div>;
 }

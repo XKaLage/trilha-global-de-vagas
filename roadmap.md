@@ -1,3 +1,5 @@
+- [x] Preparar MCP protegido com duas consultas persistentes e companion WebMCP de estado, sem expor dados locais ou ações externas.
+- [ ] Concluir conexão MCP: bloqueada até conta provisionada, método privado de entrada, validação permitir/cancelar e republicação autorizada.
 - [x] Corrigir estados e motivos da avaliação sem alterar os bloqueios.
 - [x] Verificar dados de visto/internacionais e evitar reaproveitar fatos de outra vaga.
 - [x] Executar testes e conferir o cadastro no celular e no computador.
