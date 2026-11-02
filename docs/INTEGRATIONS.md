@@ -1,5 +1,13 @@
 # Integrações — guia de configuração segura
 
+## Agentes MCP — preparação em 02/11/2026
+
+- OAuth gerenciado ativado nesta entrega; Cloud/banco já estavam presentes. Nenhum provider de login, conta, cadastro público, Gmail ou serviço pago foi ativado.
+- Servidor `/mcp` usa OAuth com issuer direto, exige claim `client_id` e preserva RLS. Ferramentas `list_jobs` e `list_rule_versions` fazem apenas consultas limitadas e verificam conta provisionada; não expõem CV, mensagens, dados locais ou comandos de escrita.
+- Consentimento em `/.lovable/oauth/consent`; falta de sessão encaminha para `/auth` preservando o pedido. `/auth` continua sem login: a conexão externa completa permanece bloqueada até provisionamento e autorização do método de entrada privado. Não contornar com tokens copiados ou acesso público.
+- Companion WebMCP na página Integrações: `read_agent_integration_status`, somente leitura do estado exibido, sem chamadas externas. Telemetria contém apenas nome estático, resultado e duração.
+- Catálogo gerado não prova disponibilidade publicada. Republicar somente quando autorizado, após concluir o acesso privado e validar permitir/cancelar com sessões reais. A versão publicada anterior permanece inalterada.
+
 Segredos vão somente em variáveis de ambiente do servidor (Segredos do projeto), nunca no navegador/localStorage.
 
 | Integração | Variáveis | Escopo |

@@ -19,3 +19,4 @@
 - Admin access requires both a protected user_roles row and server-controlled app_metadata.role; never auto-promote accounts, because writable metadata must not grant privileges.
 - Public registration is rejected by a provisioning trigger requiring trusted app_metadata.foundation_provisioned; login providers remain unchanged, because this delivery prepares private access without creating accounts.
 - External application statuses and document uploads remain database-blocked/unimplemented; private-message sync has no entry point, because schema availability is not action authorization.
+- MCP exposes only bounded caller-owned job and rule-version reads through OAuth with client_id and RLS; WebMCP remains page-local read-only, because agent access must not bypass provisioning, local-data boundaries or external-action restrictions.
