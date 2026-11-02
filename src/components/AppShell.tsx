@@ -9,6 +9,7 @@ const NAV = [
   { to: "/regras", label: "Regras" },
   { to: "/perfil", label: "Perfil/CV" },
   { to: "/integracoes", label: "Integrações" },
+  { to: "/conectar", label: "Conectar agente" },
   { to: "/auditoria", label: "Auditoria" },
   { to: "/configuracoes", label: "Configurações" },
 ] as const;
